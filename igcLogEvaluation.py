@@ -31,4 +31,7 @@ if __name__ == "__main__":
     datasets = readLogFiles(paths)
     datasets.extend(readLogFilesList(log_files))
 
+    if len(datasets) == 0:
+        raise Exception("No logs found.")
+
     createColormap(datasets)
