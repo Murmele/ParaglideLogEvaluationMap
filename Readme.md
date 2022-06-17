@@ -9,9 +9,10 @@ Evaluate your .IGC/.igc files to gain your skills. The result is a map with the 
 - Pipenv (pip install pipenv)
 
 ## Usage
-1) Change to source folder
-2) Install pipenv environment `pipenv install`
-3) Execute script: `pipenv run python igcLogEvaluation.py <relative path/file>`
+1) Download this repository
+2) Go into repository folder
+3) Install pipenv environment `pipenv install`
+4) Execute script: `pipenv run python igcLogEvaluation.py <relative path/file>`
 Where <relative path/file> can be a list of relative paths or relative filenames
 
 ## Example
