@@ -17,7 +17,7 @@ if __name__ == "__main__":
             ]
 
     #datasets = readLogFiles([rel_path_logs])
-    datasets = readLogFilesList(log_files)
+    datasets = readLogFilesList(log_files, options={})
 
     # plt.figure(figsize=(20, 10))
     #
