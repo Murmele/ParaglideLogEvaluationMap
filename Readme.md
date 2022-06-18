@@ -14,6 +14,7 @@ Evaluate your .IGC/.igc files to gain your skills. The result is a map with the 
 3) Install pipenv environment `pipenv install`
 4) Execute script: `pipenv run python igcLogEvaluation.py [options] <relative path/file>`
 Where <relative path/file> can be a list of relative paths or relative filenames
+
 Options:
 - ```--filter``` to enable filtering of the signals
 - ```--delta_t=<float>``` to interpolate the data with the provided sample rate. Example: ```--delta_t=0.5```. Time delta between two interpolated points is 0.5s
