@@ -5,7 +5,7 @@ import datetime
 import os
 import scipy.ndimage
 
-def readLogFilesList(files_relpath):
+def readLogFilesList(files_relpath, options):
     """
     Read provided logfiles
     :param files_relpath:
@@ -14,12 +14,12 @@ def readLogFilesList(files_relpath):
     datasets = list()
     for rel_path in files_relpath:
         abs_path = os.path.abspath(rel_path)
-        d = parse_data_set(abs_path)
+        d = generate_dataset(abs_path, options)
         if d is not None:
             datasets.append(d)
     return datasets
 
-def readLogFiles(rel_paths_logs):
+def readLogFiles(rel_paths_logs, options):
     """
     Find all .IGC/.igc files in a list of relative paths
     :param rel_paths_logs: list of relative paths
@@ -35,23 +35,36 @@ def readLogFiles(rel_paths_logs):
 
     print(logs)
 
-    return readLogFilesList(logs)
+    return readLogFilesList(logs, options)
 
 
 def datetime_time_to_seconds(time):
     return time.hour * 3600 + time.minute * 60 + time.second + time.microsecond / 1000
 
 
-def parse_data_set(abs_path):
+def generate_dataset(abs_path, options):
+    """
+    Reading igc file, filter and generate dataset
+    :param abs_path:
+    :param options: dictionary (all options are optional)
+        - filter, bool: if true use filtered data otherwise raw data
+        - delta_t, float: timeinterval between every datapoint (filtered option must be true)
+        - num_data_points, int: number of datapoints (filtered option must be true and delta_t must not be available in the dict)
+    :return:
+    """
     with open(abs_path, 'r') as f:
         try:
+            # read igc file
             parsed_igc_file = Reader().read(f)
         except UnicodeDecodeError as e:
             print(abs_path)
             return None
 
     dataset = dict()
-    use_interpoltated_data = True
+
+    use_filtered_data = True
+    if "filter" in options:
+        use_filtered_data = options["filter"]
 
     records = parsed_igc_file['fix_records'][1]
     nb_elements = len(records)
@@ -75,8 +88,15 @@ def parse_data_set(abs_path):
         alt_baro[i] = record['pressure_alt']
         alt_gps[i] = record['gps_alt']
 
-    if use_interpoltated_data:
-        time_seconds_new = np.linspace(int(min(time_seconds)), int(max(time_seconds)), num=1000)
+    if use_filtered_data:
+        if "delta_t" in options:
+            step = options["delta_t"]
+            time_seconds_new = np.arange(int(min(time_seconds)), int(max(time_seconds)), step)
+        else:
+            number = 10000
+            if "num_data_points" in options:
+                number = options["num_data_points"]
+            time_seconds_new = np.linspace(int(min(time_seconds)), int(max(time_seconds)), num=number)
         alt_gps_new = np.interp(time_seconds_new, time_seconds, alt_gps)
         alt_baro_new = np.interp(time_seconds_new, time_seconds, alt_baro)
 
