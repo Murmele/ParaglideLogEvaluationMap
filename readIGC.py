@@ -5,29 +5,33 @@ import datetime
 import os
 import scipy.ndimage
 
-def readLogFilesList(files_relpath, options):
+def readLogFilesList(files_path, options):
     """
     Read provided logfiles
     :param files_relpath:
     :return:
     """
+
     datasets = list()
-    for rel_path in files_relpath:
-        abs_path = os.path.abspath(rel_path)
+    for path in files_path:
+        if not os.path.isabs(path):
+            abs_path = os.path.abspath(path)
+        else:
+            abs_path = path
         d = generate_dataset(abs_path, options)
         if d is not None:
             datasets.append(d)
     return datasets
 
-def readLogFiles(rel_paths_logs, options):
+def readLogFiles(paths_logs, options):
     """
     Find all .IGC/.igc files in a list of relative paths
-    :param rel_paths_logs: list of relative paths
+    :param rel_paths_logs: list of paths, relative or absolute
     :return:
     """
     logs = list()
-    for rel_path in rel_paths_logs:
-        for subdir, dirs, files in os.walk(rel_path):
+    for path in paths_logs:
+        for subdir, dirs, files in os.walk(path):
             for file in files:
                 (root, extension) = os.path.splitext(file)
                 if extension in [".IGC", ".igc"]:

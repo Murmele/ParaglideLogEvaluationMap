@@ -12,8 +12,8 @@ Evaluate your .IGC/.igc files to gain your skills. The result is a map with the 
 1) Download this repository
 2) Go into repository folder
 3) Install pipenv environment `pipenv install`
-4) Execute script: `pipenv run python igcLogEvaluation.py [options] <relative path/file>`
-Where <relative path/file> can be a list of relative paths or relative filenames
+4) Execute script: `pipenv run python igcLogEvaluation.py [options] <path/file>`
+Where <path/file> can be a list of relative/absolute paths or relative/absolute filenames
 
 Options:
 - ```--filter``` to enable filtering of the signals
