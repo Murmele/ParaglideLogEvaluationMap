@@ -37,7 +37,8 @@ def readLogFiles(paths_logs, options):
                 if extension in [".IGC", ".igc"]:
                     logs.append(os.path.join(subdir, file))
 
-    print(logs)
+    if paths_logs:
+        print(f"Logfiles in '{paths_logs}': {logs}")
 
     return readLogFilesList(logs, options)
 
