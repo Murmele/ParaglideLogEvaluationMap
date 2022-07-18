@@ -2,6 +2,7 @@ import os
 import folium
 from folium import features
 from branca.colormap import LinearColormap
+import webbrowser
 # https://nbviewer.jupyter.org/github/python-visualization/folium/blob/master/examples/Features.ipynb#ColorLine
 # https://python-visualization.github.io/folium/modules.html#folium.features.ColorLine
 
@@ -39,4 +40,6 @@ def createColormap(datasets, location=[46.6116, 11.1630]): # default lana
 
     if not os.path.isdir('results'):
         os.makedirs('results')
-    m.save(os.path.join('results', 'Features_0.html'))
+    f = os.path.join('results', 'Features_0.html')
+    m.save(f)
+    webbrowser.open(f)
