@@ -37,4 +37,6 @@ def createColormap(datasets, location=[46.6116, 11.1630]): # default lana
 
         color_line.add_to(m)
 
+    if not os.path.isdir('results'):
+        os.makedirs('results')
     m.save(os.path.join('results', 'Features_0.html'))
